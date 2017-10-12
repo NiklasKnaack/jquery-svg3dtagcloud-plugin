@@ -11,6 +11,12 @@ A very small and CSS-less jQuery plugin for drawing a 3D, interactive, SVG based
 
 ## Examples
 
+### JSFiddle
+
+* <https://jsfiddle.net/NiklasKnaack/wr9moazp/>
+
+### More Examples
+
 * <http://nkunited.de/jquery/plugins/svg3dtagcloudV2/example1.html>
 * <http://nkunited.de/jquery/plugins/svg3dtagcloudV2/example2.html>
 * <http://nkunited.de/jquery/plugins/svg3dtagcloudV2/example3.html>
