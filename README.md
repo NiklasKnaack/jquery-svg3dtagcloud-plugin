@@ -3,7 +3,7 @@
 
 ## Preview
 
-![Alt text](https://cloud.githubusercontent.com/assets/10435486/26393070/052133f0-4069-11e7-8f6b-1d6f79cfcd12.gif "Preview")
+![Alt text](https://user-images.githubusercontent.com/10435486/31490134-3dc7ef7a-af43-11e7-8acf-4e2c6aca3721.png "Preview")
 
 ## Description
 
