@@ -1,0 +1,14 @@
+{
+	"name": "jquery-svg3dtagcloud-plugin",
+	"description": "SVG 3D Tag Cloud jQuery plugin",
+	"version": "1.0.0",
+	"main": "js/jquery.svg3dtagcloud.min.js",
+	"repository": {
+		"type": "git",
+		"url": "git@github.com:Maximoo/jquery-svg3dtagcloud-plugin.git"
+	},
+	"license": "MIT",
+	"dependencies": {
+		"jquery": ">=1.7.0 <4.0.0"
+	}
+}

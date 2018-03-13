@@ -244,7 +244,9 @@ var settings = {
     tooltipFontToUpperCase: false,
     tooltipTextAnchor: 'left',
     tooltipDiffX: 0,
-    tooltipDiffY: 10
+    tooltipDiffY: 10,
+    animatingSpeed: 0.01,
+    animatingRadiusLimit: 1.3
 
 };
 ```
@@ -259,6 +261,23 @@ $( '#holder' ).svg3DTagCloud( settings );
 
 ```js
 var svg3DTagCloud = new SVG3DTagCloud( document.getElementById( 'holder'  ), settings );
+```
+
+## API
+
+```js
+//Destroy the svg and remove events
+svg3DTagCloud.destroy();
+
+//Set the data and rebuild the svg
+svg3DTagCloud.setEntries( [] );
+
+//Animate In (controled by animatingSpeed and animatingRadiusLimit)
+svg3DTagCloud.animOut( callback );
+
+//Animate Out (controled by animatingSpeed and animatingRadiusLimit)
+svg3DTagCloud.animIn( callback );
+
 ```
 
 ## License
