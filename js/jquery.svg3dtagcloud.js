@@ -619,7 +619,7 @@ THE SOFTWARE.
         };
 
         function setRadiusFactor( factor ){
-            radius_factor = factor;
+            radius_factor = Math.min(Math.max(factor,1),settings["animatingRadiusLimit"]);
             reInit();
         };
 
