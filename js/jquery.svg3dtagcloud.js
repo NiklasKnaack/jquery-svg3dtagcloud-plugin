@@ -54,7 +54,9 @@ THE SOFTWARE.
             tooltipFontToUpperCase: false,
             tooltipTextAnchor: 'left',
             tooltipDiffX: 0,
-            tooltipDiffY: 10
+            tooltipDiffY: 10,
+            animatingSpeed: 0.01,
+            animatingRadiusLimit: 1.3
 
         };
             
@@ -95,7 +97,23 @@ THE SOFTWARE.
 
         var bg;
 
+        var animFrameId;
+        var radius_factor = 1;
+        
         //---
+
+        function destroy() {
+            window.cancelAnimFrame( animFrameId );
+            window.removeEventListener( 'resize', resizeHandler );
+            if(bg){
+                svg.removeChild( bg );
+            }
+            if(svg){
+                element.removeChild( svg );
+                svg.removeEventListener( 'mousemove', mouseMoveHandler );
+                delete svg;
+            }
+        }
 
         function init() {
 
@@ -191,7 +209,7 @@ THE SOFTWARE.
 
             //---
 
-            setEntryPositions( radius );
+            setEntryPositions( radius * radius_factor );
 
         };
 
@@ -403,7 +421,7 @@ THE SOFTWARE.
 
         //---
             
-        function render() {
+        function render() { 
 
             var fx = speed.x * mousePos.x - settings.speed;
             var fy = settings.speed - speed.y * mousePos.y;
@@ -486,7 +504,7 @@ THE SOFTWARE.
 
                 }
 
-                entry.element.setAttribute( 'opacity', opacity );
+                entry.element.setAttribute( 'opacity', opacity * (1 - ((radius_factor - 1) / (settings["animatingRadiusLimit"] - 1))) );
                 
             }
 
@@ -508,14 +526,28 @@ THE SOFTWARE.
                     window.webkitRequestAnimationFrame ||
                     window.mozRequestAnimationFrame    ||
                     function( callback ) {
-                        window.setTimeout( callback, 1000 / 60 );
+                        return window.setTimeout( callback, 1000 / 60 );
                     };
 
         } )();
+
+        window.cancelAnimFrame = ( function() {
+
+            if(window.requestAnimationFrame){
+                return window.cancelAnimationFrame;
+            } else if(window.webkitRequestAnimationFrame){
+                return window.webkitCancelAnimationFrame;
+            } else if(window.mozRequestAnimationFrame){
+                return window.mozCancelAnimationFrame;
+            }
+            return window.clearTimeout;
+
+        } )();
+
             
         function animloop() {
 
-            requestAnimFrame( animloop );
+            animFrameId = requestAnimFrame( animloop );
 
             render();
 
@@ -585,11 +617,74 @@ THE SOFTWARE.
             reInit();
 
         };
+
+        function setRadiusFactor( factor ){
+            radius_factor = factor;
+            reInit();
+        };
+
+        function resetRadiusFactor(){
+            setRadiusFactor(1);
+        };
+
+        function setEntries( entries ){
+            destroy();
+            settings["entries"] = entries;
+            init();
+        };
+
+        var animOut_cb = false, animIn_cb = false, animating = false;
+
+        function _animOut(){
+            if( animating = radius_factor <= settings["animatingRadiusLimit"] ){
+                setRadiusFactor( radius_factor + settings["animatingSpeed"] );
+                requestAnimFrame( _animOut );
+            } else {
+                if(typeof animOut_cb === 'function'){
+                    animOut_cb();
+                    animOut_cb = false;
+                }
+            }
+        };
+
+        function _animIn(){
+            if( animating = radius_factor > 1 ){
+                setRadiusFactor( radius_factor - settings["animatingSpeed"] );
+                requestAnimFrame( _animIn );
+            } else {
+                if(typeof animIn_cb === 'function'){
+                    animIn_cb();
+                    animIn_cb = false;
+                }
+            }
+            
+        };
+
+        function animOut( callback ){
+            if(!animating){
+                radius_factor = 1;
+                animOut_cb = callback;
+                _animOut();
+            }
+        };
+
+        function animIn( callback ){
+            if(!animating){
+                radius_factor = settings["animatingRadiusLimit"];
+                animIn_cb = callback;
+                _animIn();
+            }
+        };
         
         //---
 
         init();
- 
+
+        //API
+        this.destroy = destroy;
+        this.animOut = animOut;
+        this.animIn = animIn;
+        this.setEntries = setEntries;
     };
 
     window.SVG3DTagCloud = SVG3DTagCloud;
