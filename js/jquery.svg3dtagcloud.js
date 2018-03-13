@@ -636,7 +636,7 @@ THE SOFTWARE.
         var animOut_cb = false, animIn_cb = false, animating = false;
 
         function _animOut(){
-            if( animating = radius_factor <= settings["animatingRadiusLimit"] ){
+            if( animating = radius_factor < settings["animatingRadiusLimit"] ){
                 setRadiusFactor( radius_factor + settings["animatingSpeed"] );
                 requestAnimFrame( _animOut );
             } else {
