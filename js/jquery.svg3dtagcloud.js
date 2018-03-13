@@ -254,7 +254,7 @@ THE SOFTWARE.
                     entry.element.setAttribute( 'y', 0 );
                     entry.element.setAttribute( 'fill', settings.fontColor );
                     entry.element.setAttribute( 'font-family', settings.fontFamily );
-                    entry.element.setAttribute( 'font-size', settings.fontSize );
+                    entry.element.setAttribute( 'font-size', entryObj.fontSize ? entryObj.fontSize : settings.fontSize );
                     entry.element.setAttribute( 'font-weight', settings.fontWeight );
                     entry.element.setAttribute( 'font-style', settings.fontStyle );
                     entry.element.setAttribute( 'font-stretch', settings.fontStretch );
